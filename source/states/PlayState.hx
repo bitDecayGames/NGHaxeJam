@@ -1,20 +1,21 @@
-package;
+package states;
 
+import flixel.util.FlxColor;
+import entities.Totem;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 
 class PlayState extends FlxState
 {
-	var totem:FlxSprite; 
+	var totem:Totem; 
 	
 	override public function create():Void
 	{
+		bgColor = FlxColor.RED;
 		super.create();
-		totem = new FlxSprite();
-		totem.x = FlxG.width/2;
-		totem.y = FlxG.height/2;
-		totem.loadGraphic(AssetPaths.dock_totem__png, false, 64, 64);
+		totem = new Totem();
+		totem.screenCenter();
 		add(totem);
 	}
 
