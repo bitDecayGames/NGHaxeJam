@@ -13,7 +13,7 @@ class MainMenuState extends FlxUIState {
 
 	override public function create():Void {
 		super.create();
-		bgColor = FlxColor.TRANSPARENT;
+		bgColor = FlxColor.GRAY;
 
 		_btnPlay = new FlxButton(0, 0, "Play", () -> FlxG.switchState(new PlayState()));
 		_btnPlay.updateHitbox();
