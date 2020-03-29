@@ -1,5 +1,6 @@
 package states;
 
+import flixel.util.FlxColor;
 import entities.Totem;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -11,6 +12,7 @@ class PlayState extends FlxState
 	
 	override public function create():Void
 	{
+		bgColor = FlxColor.RED;
 		super.create();
 		totem = new Totem();
 		totem.screenCenter();
