@@ -62,7 +62,8 @@ class Totem extends FlxSpriteGroup {
 		var mousePos = FlxG.mouse.getPositionInCameraView();
 		var dir = mousePos.subtractPoint(totem.getPosition());
 		var newShot = new SimpleShot(dir, 100);
-	
+		newShot.x = highlightCircle.width/2 - newShot.width/2;
+		newShot.y = totem.height/2 - newShot.height/2;
 		add(newShot);
 	}
 }
