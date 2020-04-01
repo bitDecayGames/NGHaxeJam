@@ -7,8 +7,9 @@ import flixel.FlxSprite;
 class SimpleShot extends FlxSprite {
 	private var life:Float = 2;
 
-	public function new(direction:FlxVector, speed:Float) {
+	public function new(direction:FlxVector, speed:Float, life:Float) {
 		super();
+		this.life = life;
 		velocity = direction.normalize().scale(speed);
 		loadGraphic(AssetPaths.shot__png);
 	}

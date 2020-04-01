@@ -10,47 +10,28 @@ import flixel.FlxSprite;
 
 using flixel.util.FlxSpriteUtil;
 
-class Totem extends FlxSpriteGroup {
-	var highlightCircle:FlxSprite;
+class Totem extends ISelectable {
 	var totem:FlxSprite;
 
 	var shotSpeed:Float = 1;
 	var shotTimer:Float = 1;
-	
-	public function new() {
+
+	public function new(shotSpeed:Float) {
 		super();
 		totem = new FlxSprite();
 		totem.loadGraphic(AssetPaths.dock_totem__png, false, 64, 64);
+		totem.x = totem.width / -2.0;
+		totem.y = totem.height / -2.0;
 
-		highlightCircle = new FlxSprite();
-		var canvasHeight = 98;
-		var canvasWidth = 162;
-		highlightCircle.makeGraphic(canvasWidth, canvasHeight, FlxColor.TRANSPARENT, true);
-		var lineStyle:LineStyle = {color: FlxColor.BLUE, thickness: 1};
-		var drawStyle:DrawStyle = {smoothing: true};
-		var circHeight = 50;
-		var circWidth = 160;
-		highlightCircle.drawEllipse(
-			(canvasWidth-circWidth)/2, (canvasHeight-circHeight)/2,
-			circWidth, circHeight,
-			FlxColor.fromRGB(150, 150, 230, 128),
-			lineStyle, drawStyle);
-		
-		// align
-		highlightCircle.y = (totem.height - 10) - highlightCircle.height/2;
-		totem.x = highlightCircle.origin.x - totem.width/2;
-		totem.y = 1;
-		
-		// sort order
-		add(highlightCircle);
+		setHighlightYOffset(totem.height / 2.0);
+
 		add(totem);
+		this.shotSpeed = shotSpeed;
+		shotTimer = shotSpeed;
 	}
 
 	override public function update(delta:Float):Void {
 		super.update(delta);
-		highlightCircle.update(delta);
-		totem.update(delta);
-
 		shotTimer -= delta;
 		if (shotTimer <= 0) {
 			shoot();
@@ -60,10 +41,10 @@ class Totem extends FlxSpriteGroup {
 
 	function shoot():Void {
 		var mousePos = FlxG.mouse.getPositionInCameraView();
-		var dir = mousePos.subtractPoint(totem.getPosition());
-		var newShot = new SimpleShot(dir, 100);
-		newShot.x = highlightCircle.width/2 - newShot.width/2;
-		newShot.y = totem.height/2 - newShot.height/2;
+		var dir = mousePos.subtractPoint(getPosition());
+		var newShot = new SimpleShot(dir, 1000, 0.25);
+		newShot.x = newShot.width / -2.0;
+		newShot.y = newShot.height / -2.0;
 		add(newShot);
 	}
 }
