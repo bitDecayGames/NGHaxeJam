@@ -17,32 +17,25 @@ class ISelectable extends FlxSpriteGroup {
 	public function new() {
 		super();
 		_highlightCircle = new FlxSprite();
-		var canvasHeight = 98;
-		var canvasWidth = 162;
-		_highlightCircle.makeGraphic(canvasWidth, canvasHeight, FlxColor.TRANSPARENT, true);
+		var circHeight = 30;
+		var circWidth = 80;
+		_highlightCircle.makeGraphic(circWidth + 2, circHeight + 2, FlxColor.TRANSPARENT, true);
 		var lineStyle:LineStyle = {color: FlxColor.BLUE, thickness: 1};
 		var drawStyle:DrawStyle = {smoothing: true};
-		var circHeight = 50;
-		var circWidth = 160;
-		_highlightCircle.drawEllipse((canvasWidth - circWidth) / 2, (canvasHeight - circHeight) / 2, circWidth, circHeight,
-			FlxColor.fromRGB(150, 150, 230, 128), lineStyle, drawStyle);
+		_highlightCircle.drawEllipse(0, 0, circWidth, circHeight, FlxColor.fromRGB(150, 150, 230, 128), lineStyle, drawStyle);
 		_highlightCircle.x = _highlightCircle.width / -2.0;
 		_highlightCircle.y = _highlightCircle.height / -2.0;
 
 		add(_highlightCircle);
-		_highlightCircle.alpha = 0;
 		_isSelected = false;
+		_highlightCircle.exists = _isSelected;
 	}
 
 	override public function update(delta:Float):Void {
 		super.update(delta);
 		if (FlxG.mouse.justPressed) {
 			_isSelected = FlxG.mouse.overlaps(this);
-			if (_isSelected) {
-				_highlightCircle.alpha = 1;
-			} else {
-				_highlightCircle.alpha = 0;
-			}
+			_highlightCircle.exists = _isSelected;
 		}
 	}
 

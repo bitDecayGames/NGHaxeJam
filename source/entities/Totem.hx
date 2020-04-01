@@ -43,8 +43,8 @@ class Totem extends ISelectable {
 		var mousePos = FlxG.mouse.getPositionInCameraView();
 		var dir = mousePos.subtractPoint(getPosition());
 		var newShot = new SimpleShot(dir, 1000, 0.25);
-		newShot.x = newShot.width / -2.0;
-		newShot.y = newShot.height / -2.0;
-		add(newShot);
+		newShot.x = newShot.width / -2.0 + x;
+		newShot.y = newShot.height / -2.0 + y;
+		FlxG.state.add(newShot); // adds to the world instead of this group for collision purposes
 	}
 }
