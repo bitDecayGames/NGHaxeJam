@@ -21,6 +21,7 @@ class Totem extends FlxSpriteGroup {
 		super();
 		totem = new FlxSprite();
 		totem.loadGraphic(AssetPaths.dock_totem__png, false, 64, 64);
+		totem.centerOffsets(true);
 
 		highlightCircle = new FlxSprite();
 		var canvasHeight = 98;
