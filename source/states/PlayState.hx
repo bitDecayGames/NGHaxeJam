@@ -1,5 +1,6 @@
 package states;
 
+import flixel.util.FlxCollision;
 import flixel.util.FlxSpriteUtil.DrawStyle;
 import flixel.util.FlxSpriteUtil.LineStyle;
 import flixel.util.FlxColor;
@@ -14,22 +15,29 @@ class PlayState extends FlxState
 {
 	var totem:Totem;
 	var test:FlxSprite;
+	var test2:FlxSprite;
 	var align:FlxSprite;
 	
 	override public function create():Void
 	{
+		FlxG.debugger.visible = true;
+		FlxG.debugger.drawDebug = true;
 		bgColor = FlxColor.RED;
 		super.create();
 		totem = new Totem();
 		totem.screenCenter();
 		add(totem);
 
+		test2 = new FlxSprite();
+		test2.loadGraphic(AssetPaths.shot__png);
+		test2.setPosition(32, 32);
+		test2.centerOffsets(true);
+		add(test2);
+
 		test = new FlxSprite();
 		test.loadGraphic(AssetPaths.shot__png);
 		test.setPosition(32, 32);
 		test.centerOffsets(true);
-		test.offset.x = 16;
-		test.offset.y = 16;
 		add(test);
 
 		align = new FlxSprite();
@@ -47,10 +55,15 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 
-		if (test.pixelsOverlapPoint(FlxG.mouse.getPosition())) {
+		test2.setPosition(FlxG.mouse.x, FlxG.mouse.y);
+
+		
+		if (FlxCollision.pixelPerfectCheck(test, test2)) {
 			bgColor = FlxColor.BROWN;
-		} else {
+		} else if (test.overlaps(test2)) {
 			bgColor = FlxColor.GRAY;
+		} else {
+			bgColor = FlxColor.fromRGB(20, 20, 20);
 		}
 	}
 }
