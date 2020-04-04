@@ -11,7 +11,7 @@ import flixel.FlxState;
 
 using flixel.util.FlxSpriteUtil;
 
-class PlayState extends FlxState
+class PlayCollisionState extends FlxState
 {
 	var totem:Totem;
 	var test:FlxSprite;
@@ -24,7 +24,7 @@ class PlayState extends FlxState
 		FlxG.debugger.drawDebug = true;
 		bgColor = FlxColor.RED;
 		super.create();
-		totem = new Totem();
+		totem = new Totem(10);
 		totem.screenCenter();
 		add(totem);
 
