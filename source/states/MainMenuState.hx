@@ -6,7 +6,6 @@ import flixel.ui.FlxButton;
 import flixel.addons.ui.FlxUIState;
 
 class MainMenuState extends FlxUIState {
-	var _btnPlay:FlxButton;
 	var _btnTiles:FlxButton;
 	var _btnEditor:FlxButton;
 	var _btnDoob:FlxButton;
@@ -15,10 +14,15 @@ class MainMenuState extends FlxUIState {
 		super.create();
 		bgColor = FlxColor.GRAY;
 
-		_btnPlay = new FlxButton(0, 0, "Play", () -> FlxG.switchState(new PlayState()));
-		_btnPlay.updateHitbox();
-		_btnPlay.screenCenter();
-		add(_btnPlay);
+		var _btnLoganPlay = new FlxButton(0, 0, "Logan", () -> FlxG.switchState(new PlayCollisionState()));
+		_btnLoganPlay.updateHitbox();
+		_btnLoganPlay.screenCenter();
+		add(_btnLoganPlay);
+
+		var _btnMikePlay = new FlxButton(0, 0, "Mike", () -> FlxG.switchState(new PlayState()));
+		_btnMikePlay.updateHitbox();
+		_btnMikePlay.screenCenter();
+		add(_btnMikePlay);
 	}
 
 	override public function update(elapsed:Float):Void {
