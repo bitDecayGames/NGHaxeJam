@@ -19,9 +19,10 @@ class MainMenuState extends FlxUIState {
 		_btnLoganPlay.screenCenter();
 		add(_btnLoganPlay);
 
-		var _btnMikePlay = new FlxButton(0, 0, "Mike", () -> FlxG.switchState(new PlayState()));
+		var _btnMikePlay = new FlxButton(0, 30, "Mike", () -> FlxG.switchState(new PlayState()));
 		_btnMikePlay.updateHitbox();
 		_btnMikePlay.screenCenter();
+		_btnMikePlay.y += 60;
 		add(_btnMikePlay);
 	}
 
