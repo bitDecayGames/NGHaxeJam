@@ -1,5 +1,6 @@
 package states;
 
+import flixel.group.FlxGroup;
 import flixel.util.FlxCollision;
 import flixel.util.FlxSpriteUtil.DrawStyle;
 import flixel.util.FlxSpriteUtil.LineStyle;
@@ -17,6 +18,11 @@ class PlayCollisionState extends FlxState
 	var test:FlxSprite;
 	var test2:FlxSprite;
 	var align:FlxSprite;
+
+	var projectiles:FlxGroup;
+	var enemies:FlxGroup;
+	var characters:FlxGroup;
+	var towers:FlxGroup;
 	
 	override public function create():Void
 	{
@@ -24,23 +30,34 @@ class PlayCollisionState extends FlxState
 		FlxG.debugger.drawDebug = true;
 		bgColor = FlxColor.RED;
 		super.create();
-		totem = new Totem(10);
+
+		projectiles = new FlxGroup();
+		enemies = new FlxGroup();
+		characters = new FlxGroup();
+		towers = new FlxGroup();
+
+		add(projectiles);
+		add(enemies);
+		add(characters);
+		add(towers);
+
+
+		totem = new Totem(1, projectiles);
 		totem.screenCenter();
-		add(totem);
+		towers.add(totem);
 
 		test2 = new FlxSprite();
 		test2.loadGraphic(AssetPaths.shot__png);
 		test2.setPosition(32, 32);
 		test2.centerOffsets(true);
-		add(test2);
+		enemies.add(test2);
 
 		test = new FlxSprite();
 		test.loadGraphic(AssetPaths.shot__png);
 		test.setPosition(32, 32);
 		test.centerOffsets(true);
-		add(test);
+		enemies.add(test);
 
-		align = new FlxSprite();
 		align = new FlxSprite();
 		var canvasHeight = 32;
 		align.makeGraphic(canvasHeight, canvasHeight, FlxColor.TRANSPARENT, true);
@@ -57,6 +74,7 @@ class PlayCollisionState extends FlxState
 
 		test2.setPosition(FlxG.mouse.x, FlxG.mouse.y);
 
+		FlxG.overlap(enemies, projectiles, damage, checkHit);
 		
 		if (FlxCollision.pixelPerfectCheck(test, test2)) {
 			bgColor = FlxColor.BROWN;
@@ -65,5 +83,14 @@ class PlayCollisionState extends FlxState
 		} else {
 			bgColor = FlxColor.fromRGB(20, 20, 20);
 		}
+	}
+
+	private function checkHit(a:FlxSprite, b:FlxSprite):Bool {
+		return FlxG.pixelPerfectOverlap(a, b);
+	}
+
+	private function damage(enemy:FlxSprite, bullet:FlxSprite):Void {
+		trace("A collision happened between " + enemy + " and " + bullet);
+		bullet.kill();
 	}
 }

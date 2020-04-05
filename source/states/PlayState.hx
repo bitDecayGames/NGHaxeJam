@@ -1,5 +1,6 @@
 package states;
 
+import flixel.group.FlxGroup;
 import flixel.util.FlxColor;
 import entities.Totem;
 import entities.Flock;
@@ -10,14 +11,20 @@ import flixel.FlxState;
 class PlayState extends FlxState {
 	var totem:Totem;
 
+	var bullets:FlxGroup;
+
 	override public function create():Void {
 		bgColor = FlxColor.BLACK;
 		super.create();
-		totem = new Totem(0.1);
+
+		bullets = new FlxGroup();
+		add(bullets);
+
+		totem = new Totem(0.1, bullets);
 		totem.screenCenter();
 		add(totem);
 
-		var totem2 = new Totem(0.8);
+		var totem2 = new Totem(0.8, bullets);
 		totem2.setPosition(totem.x + 100, totem.y + 10);
 		add(totem2);
 
