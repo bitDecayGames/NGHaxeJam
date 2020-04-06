@@ -19,10 +19,10 @@ class PlayCollisionState extends FlxState
 	var test2:FlxSprite;
 	var align:FlxSprite;
 
-	var projectiles:FlxGroup;
-	var enemies:FlxGroup;
-	var characters:FlxGroup;
-	var towers:FlxGroup;
+	var projectiles:FlxGroup; // all of the projectiles
+	var enemies:FlxGroup; // all of the enemies
+	var characters:FlxGroup; // all of the characters
+	var towers:FlxGroup; // all of the tower sprites
 	
 	override public function create():Void
 	{
@@ -42,7 +42,7 @@ class PlayCollisionState extends FlxState
 		add(towers);
 
 
-		totem = new Totem(1, projectiles);
+		totem = new Totem(10, projectiles);
 		totem.screenCenter();
 		towers.add(totem);
 
@@ -74,23 +74,22 @@ class PlayCollisionState extends FlxState
 
 		test2.setPosition(FlxG.mouse.x, FlxG.mouse.y);
 
+		bgColor = FlxColor.fromRGB(20, 20, 20);
 		FlxG.overlap(enemies, projectiles, damage, checkHit);
-		
-		if (FlxCollision.pixelPerfectCheck(test, test2)) {
-			bgColor = FlxColor.BROWN;
-		} else if (test.overlaps(test2)) {
-			bgColor = FlxColor.GRAY;
-		} else {
-			bgColor = FlxColor.fromRGB(20, 20, 20);
-		}
+		FlxG.overlap(enemies, towers, addTarget, checkHit);
 	}
 
 	private function checkHit(a:FlxSprite, b:FlxSprite):Bool {
-		return FlxG.pixelPerfectOverlap(a, b);
+		bgColor = FlxColor.BROWN;
+		return FlxG.pixelPerfectOverlap(a, b, 1);
 	}
 
 	private function damage(enemy:FlxSprite, bullet:FlxSprite):Void {
 		trace("A collision happened between " + enemy + " and " + bullet);
 		bullet.kill();
+	}
+
+	private function addTarget(enemy:FlxSprite, zone:FlxSprite):Void {
+		bgColor = FlxColor.GRAY;
 	}
 }

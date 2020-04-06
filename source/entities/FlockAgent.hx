@@ -21,7 +21,7 @@ class FlockAgent extends ISelectable {
 	private var _up:FlxPoint = new FlxPoint(0.0, 0.0);
 
 	public function new() {
-		super();
+		super(20);
 		_graphic = new FlxSprite();
 		_graphic.makeGraphic(20, 20, FlxColor.TRANSPARENT, false);
 		var lineStyle:LineStyle = {color: FlxColor.BLUE, thickness: 1};
