@@ -10,6 +10,7 @@ import flixel.FlxState;
 
 class PlayState extends FlxState {
 	var totem:Totem;
+	var sound:FlxSound;
 
 	var bullets:FlxGroup;
 
@@ -31,9 +32,19 @@ class PlayState extends FlxState {
 		var flock = new Flock();
 		flock.screenCenter();
 		add(flock);
+
+		sound = FlxG.sound.load(AssetPaths.thisye__ogg);
+
+		// if (FlxG.sound.music == null) // don't restart the music if it's already playing
+		// {
+		// 	FlxG.sound.playMusic(AssetPaths.Song4__ogg, 1, true);
+		// }
 	}
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
+		// if (FlxG.mouse.justPressed) {
+		// 	sound.play(true);
+		// }
 	}
 }
