@@ -14,6 +14,8 @@ using flixel.util.FlxSpriteUtil;
 class Totem extends ISelectable {
 	var totem:FlxSprite;
 
+	var bullets:FlxGroup;
+
 	var shotSpeed:Float = 1;
 	var shotTimer:Float = 1;
 
@@ -21,8 +23,9 @@ class Totem extends ISelectable {
 
 	private var distortion:Float = .5;
 
-	public function new(shotSpeed:Float) {
+	public function new(shotSpeed:Float, bulletGroup:FlxGroup) {
 		super();
+		bullets = bulletGroup;
 		totem = new FlxSprite();
 		totem.loadGraphic(AssetPaths.human_totem__png, false, 16, 32);
 		totem.x = totem.width / -2.0;
@@ -66,9 +69,9 @@ class Totem extends ISelectable {
 	function shoot():Void {
 		var mousePos = FlxG.mouse.getPositionInCameraView();
 		var dir = mousePos.subtractPoint(getPosition());
-		var newShot = new SimpleShot(dir, 1000, 0.25);
+		var newShot = new SimpleShot(dir, 100, 5);
 		newShot.x = newShot.width / -2.0 + x;
 		newShot.y = newShot.height / -2.0 + y;
-		FlxG.state.add(newShot); // adds to the world instead of this group for collision purposes
+		bullets.add(newShot);
 	}
 }
