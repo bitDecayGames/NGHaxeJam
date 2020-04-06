@@ -1,5 +1,6 @@
 package states;
 
+import flixel.system.FlxSound;
 import flixel.group.FlxGroup;
 import flixel.util.FlxColor;
 import entities.Totem;
