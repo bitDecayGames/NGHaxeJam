@@ -22,36 +22,34 @@ class Flock extends FlxSpriteGroup {
 	private var targetScale = 0.005;
 	private var clamp = 100.0;
 
+	private var context = new List<FlockAgent>();
+	private var cohesion:FlxVector = null;
+	private var avoidance:FlxVector = null;
+	private var alignment:FlxVector = null;
+	private var target:FlxVector = null;
+	private var mousePos:FlxVector = null;
+	private var vel:FlxVector = null;
+
 	public function new() {
 		super();
 		agents = new List<FlockAgent>();
-		spawn();
 	}
 
-	private function spawn() {
-		var rnd = new FlxRandom();
-		var spawnRadius = 100.0;
-		for (i in 0...20) {
-			var agent = new FlockAgent();
-			agent.x = rnd.float() * spawnRadius;
-			agent.y = rnd.float() * spawnRadius;
-			agent.influenceRadius = 50.0;
-			agent.avoidanceRadius = 40.0;
-			add(agent);
-			agents.add(agent);
-		}
+	public function addAgent(agent:FlockAgent):Void {
+		add(agent);
+		agents.add(agent);
 	}
 
 	override public function update(delta:Float):Void {
 		super.update(delta);
-		var context = new List<FlockAgent>();
-		var cohesion:FlxVector = null;
-		var avoidance:FlxVector = null;
-		var alignment:FlxVector = null;
-		var target:FlxVector = null;
-		var mousePos = FlxG.mouse.getPosition();
+		context.clear();
+		cohesion = null;
+		avoidance = null;
+		alignment = null;
+		target = null;
+		mousePos = FlxG.mouse.getPosition();
 		mousePos = new FlxPoint(FlxG.width / 2.0, FlxG.height / 2.0);
-		var vel:FlxVector = null;
+		vel = null;
 		for (agent in agents) {
 			context = getNearby(agent, context);
 			cohesion = agent.calculateCohesion(context, cohesion).scale(cohesionScale);
@@ -63,13 +61,9 @@ class Flock extends FlxSpriteGroup {
 			agent.velocity.y += vel.y;
 			agent.velocity = _clampVector(clamp, agent.velocity);
 		}
-
-		if (FlxG.keys.justPressed.SPACE) {
-			spawn();
-		}
 	}
 
-	public function getNearby(agent:FlockAgent, ?context:List<FlockAgent>):List<FlockAgent> {
+	private function getNearby(agent:FlockAgent, ?context:List<FlockAgent>):List<FlockAgent> {
 		if (context == null) {
 			context = new List<FlockAgent>();
 		} else {
