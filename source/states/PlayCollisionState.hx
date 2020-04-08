@@ -42,7 +42,7 @@ class PlayCollisionState extends FlxState
 		add(towers);
 
 
-		totem = new Totem(10, projectiles);
+		totem = new Totem(1, projectiles);
 		totem.screenCenter();
 		towers.add(totem);
 
@@ -90,6 +90,7 @@ class PlayCollisionState extends FlxState
 	}
 
 	private function addTarget(enemy:FlxSprite, zone:FlxSprite):Void {
+		totem.addTarget(enemy);
 		bgColor = FlxColor.GRAY;
 	}
 }

@@ -9,7 +9,7 @@ class SimpleShot extends FlxSprite {
 		super();
 		health = life;
 		velocity = direction.normalize().scale(speed);
-		loadGraphic(AssetPaths.shot__png);
+		loadGraphic(AssetPaths.projectiles_2__png);
 	}
 
 	override public function update(delta:Float):Void {

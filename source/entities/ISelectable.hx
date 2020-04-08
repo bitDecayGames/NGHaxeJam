@@ -12,16 +12,17 @@ import render.WorldConstants;
 using flixel.util.FlxSpriteUtil;
 
 class ISelectable extends FlxSpriteGroup {
+	private var radius:Int;
 	private var _range:FlxSprite;
 	private var _isSelected:Bool;
 
-	public function new(radius:Float) {
+	public function new(radius:Int) {
 		super();
-		_range = new FlxSprite();
+		this.radius = radius;
 
-		var rangeRadii = 32;
-		var rangeWidth = rangeRadii * 2;
-		var rangeHeight = Std.int(rangeRadii * 2 * WorldConstants.HEIGHT_RATIO);
+		_range = new FlxSprite();
+		var rangeWidth = radius * 2;
+		var rangeHeight = Std.int(radius * 2 * WorldConstants.HEIGHT_RATIO);
 		_range = new FlxSprite();
 		_range.makeGraphic(rangeWidth, rangeHeight, FlxColor.TRANSPARENT, true);
 		var lineStyle:LineStyle = {color: FlxColor.RED, thickness: 1};
@@ -43,10 +44,10 @@ class ISelectable extends FlxSpriteGroup {
 		}
 	}
 
-	public function setHighlightYOffset(y:Float):Void {
+	public function setHighlightYOffset(visualReference:FlxSprite):Void {
 		// Assumes that all objects are as deep as they are wide
 		// Aligns the center of this selectable with where the center should
 		//  roughly be
-		_range.y = width / 2 - _range.height / 2 - width * WorldConstants.HEIGHT_RATIO / 2;
+		_range.y = visualReference.y + visualReference.height - _range.height / 2 - visualReference.width * WorldConstants.HEIGHT_RATIO / 2;
 	}
 }
