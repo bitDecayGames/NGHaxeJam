@@ -3,7 +3,8 @@ package entities;
 import flixel.math.FlxVector;
 
 class Path {
-	private var points:Array<FlxVector>;
+	public var points:Array<FlxVector>;
+
 	private var zero:FlxVector;
 
 	public function new() {
