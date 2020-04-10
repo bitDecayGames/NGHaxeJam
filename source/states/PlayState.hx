@@ -8,10 +8,11 @@ import entities.Flock;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import audio.BitdecaySound;
 
 class PlayState extends FlxState {
 	var totem:Totem;
-	var sound:FlxSound;
+	var sound:BitdecaySound;
 
 	var bullets:FlxGroup;
 
@@ -34,7 +35,7 @@ class PlayState extends FlxState {
 		flock.screenCenter();
 		add(flock);
 
-		sound = FlxG.sound.load(AssetPaths.thisye__ogg);
+		sound = new BitdecaySound(AssetPaths.thisye__ogg, 5);
 
 		// if (FlxG.sound.music == null) // don't restart the music if it's already playing
 		// {
@@ -44,8 +45,8 @@ class PlayState extends FlxState {
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
-		// if (FlxG.mouse.justPressed) {
-		// 	sound.play(true);
-		// }
+		if (FlxG.mouse.justPressed) {
+			sound.play();
+		}
 	}
 }
