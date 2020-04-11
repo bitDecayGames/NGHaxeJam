@@ -67,7 +67,7 @@ class Totem extends ISelectable {
 	function shoot():Void {
 		var targetPos = activeTarget.getGraphicMidpoint();
 		var dir = targetPos.subtractPoint(getGraphicMidpoint());
-		var newShot = new SimpleShot(activeTarget, 100);
+		var newShot = new SimpleShot(activeTarget, 200);
 		newShot.x = newShot.width / -2.0 + x;
 		newShot.y = newShot.height / -2.0 + y;
 		bullets.add(newShot);
