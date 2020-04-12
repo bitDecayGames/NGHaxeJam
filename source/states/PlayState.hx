@@ -1,14 +1,11 @@
 package states;
 
-import audio.BitdecaySound;
 import flixel.group.FlxGroup;
 import flixel.util.FlxColor;
 import entities.Totem;
 import entities.Flock;
 import flixel.FlxG;
 import flixel.FlxState;
-
-import audio.BitdecaySoundBank;
 
 class PlayState extends FlxState {
 	var totem:Totem;
@@ -34,14 +31,9 @@ class PlayState extends FlxState {
 		var flock = new Flock();
 		flock.screenCenter();
 		add(flock);
-
-		BitdecaySoundBank.Instance().PlaySongIfNonePlaying(BitdecaySongs.MainTheme);
 	}
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
-		if (FlxG.mouse.justPressed) {
-			BitdecaySoundBank.Instance().PlaySound(BitdecaySounds.Shoot);
-		}
 	}
 }

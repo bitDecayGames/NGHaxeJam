@@ -7,10 +7,13 @@ import flixel.FlxG;
 
 class BitdecaySound {
 
+	public var name:String;
 	public var flxSounds:Array<FlxSound> = new Array();
 	private var flxRandom:FlxRandom = new FlxRandom();
 
-	public function new(soundPaths:Array<String>, MaxConcurrent:Int = 1) {
+	public function new(soundName:String, soundPaths:Array<String>, MaxConcurrent:Int = 1) {
+
+		name = soundName;
 
 		for (soundPath in soundPaths) {
 			if (!FileSystem.exists(soundPath)) {
@@ -46,5 +49,22 @@ class BitdecaySound {
 
 		// If everything is currently playing, just reset the first one
 		flxSounds[0].play(true);
+	}
+
+	public function stop() {
+		for (flxSound in flxSounds) {
+			if (flxSound.playing){
+				flxSound.stop();
+			}
+		}
+	}
+
+	public function isPlaying():Bool {
+		for (flxSound in flxSounds) {
+			if (flxSound.playing){
+				return true;
+			}
+		}
+		return false;
 	}
 }

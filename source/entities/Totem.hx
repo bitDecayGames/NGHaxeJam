@@ -1,5 +1,6 @@
 package entities;
 
+import audio.BitdecaySoundBank;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
@@ -65,6 +66,7 @@ class Totem extends ISelectable {
 	}
 
 	function shoot():Void {
+		BitdecaySoundBank.Instance().PlaySound(BitdecaySounds.Arrow);
 		var targetPos = activeTarget.getGraphicMidpoint();
 		var dir = targetPos.subtractPoint(getGraphicMidpoint());
 		var newShot = new SimpleShot(activeTarget, 200);

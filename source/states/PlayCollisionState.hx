@@ -14,6 +14,8 @@ import flixel.FlxState;
 
 using flixel.util.FlxSpriteUtil;
 
+import audio.BitdecaySoundBank;
+
 class PlayCollisionState extends FlxState
 {
 	var totem:Totem;
@@ -26,6 +28,8 @@ class PlayCollisionState extends FlxState
 	var characters:FlxGroup; // all of the characters
 	var towers:FlxGroup; // all of the tower sprites
 	
+	var buildSoundId:Int = 0;
+
 	override public function create():Void
 	{
 		FlxG.debugger.visible = true;
@@ -77,6 +81,8 @@ class PlayCollisionState extends FlxState
 		var player = new Player();
 		player.setPosition(100, 100);
 		add(player);
+		
+		BitdecaySoundBank.Instance().PlaySongIfNonePlaying(BitdecaySongs.BattleForHome);
 	}
 
 	override public function update(elapsed:Float):Void
@@ -88,6 +94,21 @@ class PlayCollisionState extends FlxState
 		// bgColor = FlxColor.fromRGB(20, 20, 20);
 		FlxG.overlap(enemies, projectiles, damage, checkHit);
 		FlxG.overlap(enemies, towers, addTarget, checkHit);
+
+		if (FlxG.mouse.justPressed) {
+			// BitdecaySoundBank.Instance().PlaySound(BitdecaySounds.Shoot);
+			// BitdecaySoundBank.Instance().PlaySound(BitdecaySounds.Arrow);
+			if (buildSoundId == 0){
+				buildSoundId = BitdecaySoundBank.Instance().PlaySoundLooped(BitdecaySounds.Build);
+			}
+		}
+		if (FlxG.mouse.justPressedRight) {
+			if (buildSoundId != 0){
+				BitdecaySoundBank.Instance().StopSoundLooped(buildSoundId);
+				buildSoundId = 0;
+			}
+		}
+		BitdecaySoundBank.Instance().Update();
 	}
 
 	private function checkHit(a:FlxSprite, b:FlxSprite):Bool {

@@ -1,5 +1,6 @@
 package entities;
 
+import audio.BitdecaySoundBank;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVector;
 import flixel.FlxSprite;
@@ -26,5 +27,8 @@ class SimpleShot extends FlxSprite {
 	override public function kill() {
 		direction.put();
 		destroy();
+		
+		// This should be on the enemy type, but maybe that is internal atm?
+		BitdecaySoundBank.Instance().PlaySound(BitdecaySounds.HitEnemy);
 	}
 }
