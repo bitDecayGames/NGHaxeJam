@@ -6,6 +6,8 @@ import flixel.util.FlxSpriteUtil.DrawStyle;
 import flixel.util.FlxSpriteUtil.LineStyle;
 import flixel.util.FlxColor;
 import entities.Totem;
+import entities.Spawner;
+import entities.Player;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -19,16 +21,16 @@ class PlayCollisionState extends FlxState
 	var test2:FlxSprite;
 	var align:FlxSprite;
 
-	var projectiles:FlxGroup;
-	var enemies:FlxGroup;
-	var characters:FlxGroup;
-	var towers:FlxGroup;
+	var projectiles:FlxGroup; // all of the projectiles
+	var enemies:FlxGroup; // all of the enemies
+	var characters:FlxGroup; // all of the characters
+	var towers:FlxGroup; // all of the tower sprites
 	
 	override public function create():Void
 	{
 		FlxG.debugger.visible = true;
 		FlxG.debugger.drawDebug = true;
-		bgColor = FlxColor.RED;
+		bgColor = FlxColor.BLACK;
 		super.create();
 
 		projectiles = new FlxGroup();
@@ -44,6 +46,7 @@ class PlayCollisionState extends FlxState
 
 		totem = new Totem(1, projectiles);
 		totem.screenCenter();
+		totem.x += 50;
 		towers.add(totem);
 
 		test2 = new FlxSprite();
@@ -66,6 +69,14 @@ class PlayCollisionState extends FlxState
 		align.drawRect(0, 0, canvasHeight, canvasHeight, FlxColor.GREEN, lineStyle, drawStyle);
 		add(align);
 		align.setPosition(0,0);
+
+		var spawner = new Spawner(2, enemies);
+		spawner.setPosition(FlxG.width/2, 100);
+		add(spawner);
+
+		var player = new Player();
+		player.setPosition(100, 100);
+		add(player);
 	}
 
 	override public function update(elapsed:Float):Void
@@ -74,23 +85,24 @@ class PlayCollisionState extends FlxState
 
 		test2.setPosition(FlxG.mouse.x, FlxG.mouse.y);
 
+		// bgColor = FlxColor.fromRGB(20, 20, 20);
 		FlxG.overlap(enemies, projectiles, damage, checkHit);
-		
-		if (FlxCollision.pixelPerfectCheck(test, test2)) {
-			bgColor = FlxColor.BROWN;
-		} else if (test.overlaps(test2)) {
-			bgColor = FlxColor.GRAY;
-		} else {
-			bgColor = FlxColor.fromRGB(20, 20, 20);
-		}
+		FlxG.overlap(enemies, towers, addTarget, checkHit);
 	}
 
 	private function checkHit(a:FlxSprite, b:FlxSprite):Bool {
-		return FlxG.pixelPerfectOverlap(a, b);
+		// bgColor = FlxColor.BROWN;
+		return FlxG.pixelPerfectOverlap(a, b, 1);
 	}
 
 	private function damage(enemy:FlxSprite, bullet:FlxSprite):Void {
 		trace("A collision happened between " + enemy + " and " + bullet);
 		bullet.kill();
+		enemy.hurt(1);
+	}
+
+	private function addTarget(enemy:FlxSprite, zone:FlxSprite):Void {
+		totem.addTarget(enemy);
+		// bgColor = FlxColor.GRAY;
 	}
 }

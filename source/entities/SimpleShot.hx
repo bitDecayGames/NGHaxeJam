@@ -5,19 +5,26 @@ import flixel.math.FlxVector;
 import flixel.FlxSprite;
 
 class SimpleShot extends FlxSprite {
-	public function new(direction:FlxVector, speed:Float, life:Float) {
+	private var target:FlxSprite;
+	private var direction:FlxPoint;
+	private var speed:Float;
+
+	public function new(target:FlxSprite, speed:Float) {
 		super();
-		health = life;
-		velocity = direction.normalize().scale(speed);
-		loadGraphic(AssetPaths.shot__png);
+		this.target = target;
+		direction = FlxPoint.get();
+		this.speed = speed;
+		loadGraphic(AssetPaths.projectiles_2__png);
 	}
 
 	override public function update(delta:Float):Void {
 		super.update(delta);
-		hurt(delta);
+		target.getGraphicMidpoint(direction);
+		velocity = cast (direction.subtractPoint(getGraphicMidpoint()), FlxVector).normalize().scale(speed);
 	}
 
 	override public function kill() {
+		direction.put();
 		destroy();
 	}
 }

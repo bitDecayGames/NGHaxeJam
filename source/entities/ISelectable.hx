@@ -7,39 +7,47 @@ import flixel.util.FlxSpriteUtil.LineStyle;
 import flixel.group.FlxGroup;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
+import render.WorldConstants;
 
 using flixel.util.FlxSpriteUtil;
 
 class ISelectable extends FlxSpriteGroup {
-	private var _highlightCircle:FlxSprite;
+	private var radius:Int;
+	private var _range:FlxSprite;
 	private var _isSelected:Bool;
 
-	public function new() {
+	public function new(radius:Int) {
 		super();
-		_highlightCircle = new FlxSprite();
-		var circHeight = 30;
-		var circWidth = 80;
-		_highlightCircle.makeGraphic(circWidth + 2, circHeight + 2, FlxColor.TRANSPARENT, true);
-		var lineStyle:LineStyle = {color: FlxColor.BLUE, thickness: 1};
-		var drawStyle:DrawStyle = {smoothing: true};
-		_highlightCircle.drawEllipse(0, 0, circWidth, circHeight, FlxColor.fromRGB(150, 150, 230, 128), lineStyle, drawStyle);
-		_highlightCircle.x = _highlightCircle.width / -2.0;
-		_highlightCircle.y = _highlightCircle.height / -2.0;
+		this.radius = radius;
 
-		add(_highlightCircle);
+		_range = new FlxSprite();
+		var rangeWidth = radius * 2;
+		var rangeHeight = Std.int(radius * 2 * WorldConstants.HEIGHT_RATIO);
+		_range = new FlxSprite();
+		_range.makeGraphic(rangeWidth, rangeHeight, FlxColor.TRANSPARENT, true);
+		var lineStyle:LineStyle = {color: FlxColor.RED, thickness: 1};
+		var drawStyle:DrawStyle = {smoothing: true};
+		_range.drawEllipse(0, 0, rangeWidth, rangeHeight, FlxColor.fromRGB(255, 0, 0, 128), lineStyle, drawStyle);
+		_range.x = _range.width / -2;
+		
+		add(_range);
+
 		_isSelected = false;
-		_highlightCircle.exists = _isSelected;
+		_range.visible = _isSelected;
 	}
 
 	override public function update(delta:Float):Void {
 		super.update(delta);
 		if (FlxG.mouse.justPressed) {
 			_isSelected = FlxG.mouse.overlaps(this);
-			_highlightCircle.exists = _isSelected;
+			_range.visible = _isSelected;
 		}
 	}
 
-	public function setHighlightYOffset(y:Float):Void {
-		_highlightCircle.y = _highlightCircle.height / -2.0 + y;
+	public function setHighlightYOffset(visualReference:FlxSprite):Void {
+		// Assumes that all objects are as deep as they are wide
+		// Aligns the center of this selectable with where the center should
+		//  roughly be
+		_range.y = visualReference.y + visualReference.height - _range.height / 2 - visualReference.width * WorldConstants.HEIGHT_RATIO / 2;
 	}
 }
