@@ -5,11 +5,11 @@ import flixel.input.actions.FlxAction.FlxActionDigital;
 
 class Actions {
 
-	var up = new FlxActionDigital();
-	var down = new FlxActionDigital();
-	var left = new FlxActionDigital();
-	var right = new FlxActionDigital();
-	var confirm = new FlxActionDigital();
+	public var up = new FlxActionDigital();
+	public var down = new FlxActionDigital();
+	public var left = new FlxActionDigital();
+	public var right = new FlxActionDigital();
+	public var confirm = new FlxActionDigital();
 
 	public function new() {
 		up.addKey(FlxKey.W, PRESSED);

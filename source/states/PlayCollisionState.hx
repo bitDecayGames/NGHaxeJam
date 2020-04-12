@@ -7,6 +7,7 @@ import flixel.util.FlxSpriteUtil.LineStyle;
 import flixel.util.FlxColor;
 import entities.Totem;
 import entities.Spawner;
+import entities.Player;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -74,6 +75,7 @@ class PlayCollisionState extends FlxState
 		add(spawner);
 
 		var player = new Player();
+		player.setPosition(100, 100);
 		add(player);
 	}
 
