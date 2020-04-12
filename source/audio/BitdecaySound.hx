@@ -1,40 +1,45 @@
 package audio;
 
+import flixel.math.FlxRandom;
 import flixel.system.FlxSound;
-import entities.ISelectable;
 import sys.FileSystem;
-import Std;
 import flixel.FlxG;
-import flixel.group.FlxSpriteGroup;
-import flixel.util.FlxSpriteUtil.DrawStyle;
-import flixel.util.FlxSpriteUtil.LineStyle;
-import flixel.group.FlxGroup;
-import flixel.util.FlxColor;
-import flixel.FlxSprite;
-
-using flixel.util.FlxSpriteUtil;
 
 class BitdecaySound {
 
 	public var flxSounds:Array<FlxSound> = new Array();
+	private var flxRandom:FlxRandom = new FlxRandom();
 
-	public function new(soundPath:String, MaxConcurrent:Int = 1) {
+	public function new(soundPaths:Array<String>, MaxConcurrent:Int = 1) {
 
-		var exists = FileSystem.exists(soundPath);
-		if (!exists) {
-			throw 'Unable to find sound file: $soundPath';
+		for (soundPath in soundPaths) {
+			if (!FileSystem.exists(soundPath)) {
+				throw 'Unable to find $soundPath sound file';
+			}
+			
+			for (i in 0...MaxConcurrent) {
+				var loadedSound:FlxSound = FlxG.sound.load(soundPath);
+				flxSounds.push(loadedSound);
+			}
 		}
-
-		for (i in 0...MaxConcurrent) {
-			flxSounds.push(FlxG.sound.load(soundPath));
-		}
-
 	}
 
+	// Due to a bug in FlxRandom's cpp transpiled code, I cannot shuffle the array directly. 
+	//   An integer mapping array is used to work around this.
 	public function play() {
-		for (flxSound in flxSounds) {
-			if (!flxSound.playing){
-				flxSound.play();
+		var index = 0;
+		var indexArray = new Array();
+		for (i in 0...flxSounds.length) {
+			indexArray.push(i);
+		}
+		flxRandom.shuffle(indexArray);
+		trace("Randomized indexes");
+		for (index in indexArray) {
+			trace('Index: ${index}');
+		}
+		for (index in indexArray) {
+			if (!flxSounds[index].playing){
+				flxSounds[index].play();
 				return;
 			}
 		}
