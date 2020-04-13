@@ -74,11 +74,6 @@ class Player extends FlxSprite {
 			velocity.set(0, 0);
 		}
 
-		FlxG.watch.addQuick("Facing UP: ", newFacing & FlxObject.UP != 0);
-		FlxG.watch.addQuick("Facing DOWN: ", newFacing & FlxObject.DOWN != 0);
-		FlxG.watch.addQuick("Facing LEFT: ", newFacing & FlxObject.LEFT != 0);
-		FlxG.watch.addQuick("Facing RIGHT: ", newFacing & FlxObject.RIGHT != 0);
-
 		facing = newFacing;
 
 		velocity.rotate(FlxPoint.weak(0, 0), newAngle);

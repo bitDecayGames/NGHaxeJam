@@ -91,7 +91,6 @@ class PlayCollisionState extends FlxState
 
 		test2.setPosition(FlxG.mouse.x, FlxG.mouse.y);
 
-		// bgColor = FlxColor.fromRGB(20, 20, 20);
 		FlxG.overlap(enemies, projectiles, damage, checkHit);
 		FlxG.overlap(enemies, towers, addTarget, checkHit);
 
@@ -112,18 +111,15 @@ class PlayCollisionState extends FlxState
 	}
 
 	private function checkHit(a:FlxSprite, b:FlxSprite):Bool {
-		// bgColor = FlxColor.BROWN;
 		return FlxG.pixelPerfectOverlap(a, b, 1);
 	}
 
 	private function damage(enemy:FlxSprite, bullet:FlxSprite):Void {
-		trace("A collision happened between " + enemy + " and " + bullet);
 		bullet.kill();
 		enemy.hurt(1);
 	}
 
 	private function addTarget(enemy:FlxSprite, zone:FlxSprite):Void {
 		totem.addTarget(enemy);
-		// bgColor = FlxColor.GRAY;
 	}
 }

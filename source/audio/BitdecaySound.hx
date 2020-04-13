@@ -36,10 +36,6 @@ class BitdecaySound {
 			indexArray.push(i);
 		}
 		flxRandom.shuffle(indexArray);
-		trace("Randomized indexes");
-		for (index in indexArray) {
-			trace('Index: ${index}');
-		}
 		for (index in indexArray) {
 			if (!flxSounds[index].playing){
 				flxSounds[index].play();
