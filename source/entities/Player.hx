@@ -17,12 +17,12 @@ class Player extends FlxSprite {
 	public function new() {
 		super();
 		super.loadGraphic(AssetPaths.sailor_all__png, true, 16, 32);
-		setFacingFlip(FlxObject.UP & FlxObject.RIGHT, false, false);
-		setFacingFlip(FlxObject.DOWN & FlxObject.RIGHT, false, false);
+		setFacingFlip(FlxObject.UP | FlxObject.RIGHT, false, false);
+		setFacingFlip(FlxObject.DOWN | FlxObject.RIGHT, false, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
 
-		setFacingFlip(FlxObject.UP & FlxObject.LEFT, true, false);
-		setFacingFlip(FlxObject.DOWN & FlxObject.LEFT, true, false);
+		setFacingFlip(FlxObject.UP | FlxObject.LEFT, true, false);
+		setFacingFlip(FlxObject.DOWN | FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.LEFT, true, false);
 		animation.add("walk", [4,5,6,7], 5);
 
